@@ -50,7 +50,6 @@ app.post('/buildAPI', async (req, res) => {
         date,
         status
     })
-
     try {
         await newUser.save()
         res.redirect('/buildAPI')
@@ -59,15 +58,18 @@ app.post('/buildAPI', async (req, res) => {
     }
 })
 
-//
+//fetch Build API
 app.get('/posts', async (req, res) => {
-
     try {
         const users = await User.find()
         res.send(users)
     } catch(err) {
         console.log(err);
     }
+})
+
+app.get('/fetchBuildAPI', (req, res) => {
+    res.render('fetchBuildApi')
 })
 
 const PORT = process.env.PORT || 3000

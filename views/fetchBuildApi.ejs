@@ -21,47 +21,25 @@
 	
 	<body style = "text-align:center;"> 	
         <button class="btn blue-gradient" onclick = "getUsers()"> API Data </button><br> 
-        click here for
-        <a href="/"> Home</a>
+        click here to
+        <a href="/buildAPI"> Add Data</a>
         <div class="container">
             <div id="output">
         </div>
         </div>
+
 		<script> 
-		
 			function getUsers() { 
-                fetch('https://5w05g4ddb1.execute-api.ap-south-1.amazonaws.com/dev/profile/listAll')
+                fetch('https://intense-basin-89019.herokuapp.com/posts')
                 .then((res) => res.json())
                 .then((data) => {
-                    console.log('in');
-                    let output = '<h2>Users</h2>'
-                    if(typeof data.list !== 'undefined' && data.list.length > 0) {
-                        let array = data.list
-                        array.sort(function (a, b) {
-                        
-                            if (a.status > b.status) return 1;
-                            if (a.status < b.status) return -1;
-
-                            var res1 = a.date.split("/");
-                            var ress1 = `${res1[2]}/${res1[1]}/${res1[0]}`
-
-                            var res2 = b.date.split("/");
-                            var ress2 = `${res2[2]}/${res2[1]}/${res2[0]}`
-
-                            if (new Date(ress1) > new Date(ress2)) return 1;
-                            if (new Date(ress1) < new Date(ress2)) return -1;
-
-                        });
-
+                     let output = '<h2>Users</h2>'
+                    if(typeof data !== 'undefined' && data.length > 0) {
+                        let array = data;
                         for(var i=0; i<array.length; i++) {
                             console.log(array[i].status, array[i].date);
                             output += `
                                 <div class="col-md-4">
-                                    <div class="card">
-                                        <div class="view view-cascade overlay">
-                                        <img class="card-img-top" src="${array[i].img}" height="250px" width="250px" alt="">
-                                        <div class="mask rgba-white-slight"></div>
-                                    </div>
                                         <div class="card-body">
                                             <h4 class="card-title"><a>${array[i].name}</a></h4>
                                             <p class="card-text">
