@@ -61,7 +61,7 @@ app.post('/buildAPI', async (req, res) => {
 
 //
 app.get('/posts', async (req, res) => {
-    
+
     try {
         const users = await User.find()
         res.send(users)
@@ -70,4 +70,5 @@ app.get('/posts', async (req, res) => {
     }
 })
 
-app.listen(3000)
+const PORT = process.env.PORT || 3000
+app.listen(PORT)
