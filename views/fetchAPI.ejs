@@ -1,0 +1,95 @@
+<!DOCTYPE html> 
+<html> 
+	<head> 
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+        <!-- Google Fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+        <!-- Bootstrap core CSS -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Material Design Bootstrap -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.18.0/css/mdb.min.css" rel="stylesheet">
+        <title> Intern Task | Fetch API </title> 
+        <style>
+            body{
+                background-color: rgb(245, 245, 245);
+            }
+        </style>
+	</head> 
+	
+	<body style = "text-align:center;"> 	
+		<button class="btn blue-gradient" onclick = "getUsers()"> Click To Sort </button> 
+        <div class="container">
+            <div id="output">
+        </div>
+        </div>
+		<script> 
+		
+			function getUsers() { 
+                fetch('https://5w05g4ddb1.execute-api.ap-south-1.amazonaws.com/dev/profile/listAll')
+                .then((res) => res.json())
+                .then((data) => {
+                    console.log('in');
+                    let output = '<h2>Users</h2>'
+                    if(typeof data.list !== 'undefined' && data.list.length > 0) {
+                        let array = data.list
+                        array.sort(function (a, b) {
+                        
+                            if (a.status > b.status) return 1;
+                            if (a.status < b.status) return -1;
+
+                            var res1 = a.date.split("/");
+                            var ress1 = `${res1[2]}/${res1[1]}/${res1[0]}`
+
+                            var res2 = b.date.split("/");
+                            var ress2 = `${res2[2]}/${res2[1]}/${res2[0]}`
+
+                            if (new Date(ress1) > new Date(ress2)) return 1;
+                            if (new Date(ress1) < new Date(ress2)) return -1;
+
+                        });
+
+                        for(var i=0; i<array.length; i++) {
+                            console.log(array[i].status, array[i].date);
+                            output += `
+                                <div class="col-md-4">
+                                    <div class="card">
+                                        <div class="view view-cascade overlay">
+                                        <img class="card-img-top" src="${array[i].img}" height="250px" width="250px" alt="">
+                                        <div class="mask rgba-white-slight"></div>
+                                    </div>
+                                        <div class="card-body">
+                                            <h4 class="card-title"><a>${array[i].name}</a></h4>
+                                            <p class="card-text">
+                                            Status: ${array[i].status}, 
+                                            Gender: ${array[i].gender}, 
+                                            Age: ${array[i].age}, 
+                                            Date: ${array[i].date}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                             `
+                        }
+                        
+                    } else {
+                        console.log('check');
+                    }
+                    document.getElementById('output').innerHTML = output
+                })
+
+            } 
+        
+        </script> 
+        <!-- JQuery -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <!-- Bootstrap tooltips -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+        <!-- Bootstrap core JavaScript -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+        <!-- MDB core JavaScript -->
+        <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.18.0/js/mdb.min.js"></script>
+	</body> 
+</html>					 
